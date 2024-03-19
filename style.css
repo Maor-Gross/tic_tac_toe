@@ -97,6 +97,10 @@ h1 {
 }
 
 footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-between;
 }
@@ -106,4 +110,5 @@ h2 {
     color: white;
     font-size: 16px;
     font-weight: normal;
+    margin: 10px 10px;
 }
