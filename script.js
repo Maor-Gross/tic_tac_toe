@@ -2,6 +2,11 @@ const divs = document.querySelectorAll("#board>div");
 let isX = true;
 let isGameOver = false;
 
+let counterX = localStorage.x ? Number(localStorage.x) : 0;
+let counterY = localStorage.o ? Number(localStorage.o) : 0;
+
+document.querySelector(".scoreX").innerText = localStorage.x;
+document.querySelector(".scoreY").innerText = localStorage.o;
 // לולאה העוברת על כל המשבצות
 divs.forEach(div => {
     // הוספת פונקציה המופעלת בעת לחיצה על אחת המשבצות
@@ -47,8 +52,6 @@ function showTurn() {
     }
 }
 
-let counterX = 0;
-let counterY = 0;
 function checkWinner() {
     // מערך של מערכים של מיקומים אפשריים לניצחון
     const options = [
@@ -66,23 +69,34 @@ function checkWinner() {
     for (const op of options) {
         // בודק את המיקומים של כל מערך
         if (op.every(myIndex => divs[myIndex].innerText === 'X')) {
+            counterX++;
+
             winner(op, 'X');
-            counterX += 1;
 
             isX = true;
 
             document.querySelector('.scoreX').innerHTML = `ניצחונות: ${counterX}`;
             break;
         } else if (op.every(myIndex => divs[myIndex].innerText === 'O')) {
+            counterY++;
+
             winner(op, 'O');
-            counterY += 1;
 
             isX = false;
 
             document.querySelector('.scoreY').innerHTML = `ניצחונות: ${counterY}`;
             break;
+
+
+
+            //תיקו// 
         }
 
+    }
+
+    if (!isGameOver && [...divs].every(x => x.innerText)) {
+        setTimeout(() => alert("No winner is!"), 50);
+        isGameOver = true;
     }
 }
 
@@ -92,6 +106,12 @@ function winner(op, win) {
     op.forEach(x => divs[x].classList.add('win'));
 
     isGameOver = true;
+
+    isX = !isX;
+
+    localStorage.x = counterX;
+    localStorage.o = counterY;
+
 }
 
 
